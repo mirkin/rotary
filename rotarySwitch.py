@@ -48,6 +48,9 @@ GPIO.setup(PIN_GREEN,GPIO.OUT)
 dimmer_red=GPIO.PWM(PIN_RED,50) #frequency 
 dimmer_red.start(50) #duty cycle zero percent of each wave
 dimmer_red.ChangeDutyCycle(99)
+dimmer_green=GPIO.PWM(PIN_GREEN,50) #frequency 
+dimmer_green.start(50) #duty cycle zero percent of each wave
+dimmer_green.ChangeDutyCycle(1)
 r=100
 try:
     while True:
