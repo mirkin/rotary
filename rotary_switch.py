@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 background=dark
 '''
 Rotary enocoder COM-10982 uses 2bit grey code
@@ -17,6 +18,7 @@ PINS=[5,13]
 PIN_PUSH=6
 PIN_RED=7
 PIN_GREEN=8
+PIN_BLUE=25
 bounce=5
 GPIO.setmode(GPIO.BCM)
 value=100
