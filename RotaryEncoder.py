@@ -29,6 +29,7 @@ class RotaryEncoder:
         self.value=0
         self.debug=debug
         self.push_callback=None
+        self.value_callback=None
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_PUSH,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.PIN_PUSH,GPIO.BOTH,self.pushed,
@@ -52,6 +53,9 @@ class RotaryEncoder:
         self.prev_state |=GPIO.input(self.PINS[1])
         self.prev_state &= 0x0f
         self.value+=RotaryEncoder.states[self.prev_state]
+        if RotaryEncoder.states[self.prev_state]!=0 and \
+            self.value_callback is not None:
+            self.value_callback(self.value)
         if self.debug:
             print(self.value)
 
@@ -61,3 +65,10 @@ class RotaryEncoder:
         callback will be called with 1 or 0 depending on press or release
         '''
         self.push_callback=callback
+
+    def add_value_listener(self,callback):
+        '''
+        add a listener for the value being changed
+        callback will be called with the new value
+        '''
+        self.value_callback=callback

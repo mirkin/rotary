@@ -13,8 +13,12 @@ def cleanup():
 def pushed(val):
     print('pushed: '+str(val))
 
-my_rotary=RE.RotaryEncoder(5,13,6,2,True)
+def value_changed(val):
+    print('Value changed: '+str(val))
+
+my_rotary=RE.RotaryEncoder(5,13,6,2,False)
 my_rotary.add_push_callback(pushed)
+my_rotary.add_value_listener(value_changed)
 my_led=LED.RGBLED(7,8,25,'COMMON_ANODE',0xFF1493)
 
 
