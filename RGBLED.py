@@ -66,3 +66,13 @@ class RGBLED:
         self.dimmer_red.ChangeDutyCycle(red)
         self.dimmer_green.ChangeDutyCycle(green)
         self.dimmer_blue.ChangeDutyCycle(blue)
+
+    def get_red(self):
+        return (self.color & 0xFF0000)>>16
+
+    def get_green(self):
+        return (self.color & 0xFF00)>>8
+
+    def get_blue(self):
+        return (self.color & 0xFF)
+

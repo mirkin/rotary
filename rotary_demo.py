@@ -5,13 +5,17 @@ Demo using the rotary encoder
 import RGBLED as LED
 import RotaryEncoder as RE
 import time
-
+import random
 
 def cleanup():
     print 'Terminating'
 
 def pushed(val):
     print('pushed: '+str(val))
+    if val==1:
+        cols=my_led.colors.values()
+        col=random.choice(cols)
+        my_led.set_color(col)
 
 def value_changed(val):
     print('Value changed: '+str(val))
