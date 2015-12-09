@@ -6,11 +6,17 @@ import RGBLED as LED
 import RotaryEncoder as RE
 import time
 
-my_rotary=RE.RotaryEncoder(5,13,6,2,True)
-my_led=LED.RGBLED(7,8,25,'COMMON_ANODE',0xFF1493)
 
 def cleanup():
-          print 'Terminating'
+    print 'Terminating'
+
+def pushed(val):
+    print('pushed: '+str(val))
+
+my_rotary=RE.RotaryEncoder(5,13,6,2,True)
+my_rotary.add_push_callback(pushed)
+my_led=LED.RGBLED(7,8,25,'COMMON_ANODE',0xFF1493)
+
 
 try:
     while True:

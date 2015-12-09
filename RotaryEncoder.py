@@ -28,6 +28,7 @@ class RotaryEncoder:
         self.prev_state=0
         self.value=0
         self.debug=debug
+        self.push_callback=None
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_PUSH,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.PIN_PUSH,GPIO.BOTH,self.pushed,
@@ -41,6 +42,8 @@ class RotaryEncoder:
     def pushed(self,channel):
         if self.debug:
             print('push '+str(GPIO.input(self.PIN_PUSH)))
+        if self.push_callback is not None:
+            self.push_callback(GPIO.input(self.PIN_PUSH))
 
 
     def update_state(self,channel):
@@ -51,3 +54,10 @@ class RotaryEncoder:
         self.value+=RotaryEncoder.states[self.prev_state]
         if self.debug:
             print(self.value)
+
+    def add_push_callback(self,callback):
+        '''
+        run callback when button is pressed
+        callback will be called with 1 or 0 depending on press or release
+        '''
+        self.push_callback=callback
