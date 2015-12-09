@@ -6,8 +6,26 @@ class RGBLED:
 
     COMMON_ANODE='COMMON_ANODE'
     COMMON_CATHODE='COMMON_CATHODE'
+    colors={
+        'red':      0xFF0000,
+        'green':    0x00FF00,
+        'blue':     0x0000FF,
+        'yellow':   0xFFFF00,
+        'cyan':     0x00FFFF,
+        'lilac':    0xFF00FF,
+        'orange':   0xFF8C00,
+        'pink':     0xFF1493,
+    }
 
-    def __init__(self,PIN_RED=7,PIN_GREEN=8,PIN_BLUE=25,type='COMMON_ANODE',color=0x9933FF):
+    def __init__(self,PIN_RED=7,PIN_GREEN=8,PIN_BLUE=25,type='COMMON_ANODE',
+                 color=0x9933FF):
+        '''
+        PIN_RED     -- GPIO pin connected to red terminal
+        PIN_GREEN   -- GPIO pin connected to green terminal
+        PIN_BLUE    -- GPIO pin connected to blue terminal
+        type        -- type of LED COMMON_ANODE or COMMON_CATHODE
+        color       -- HEX value of RGB colour to start with
+        '''
         self.PIN_RED=PIN_RED
         self.PIN_GREEN=PIN_GREEN
         self.PIN_BLUE=PIN_BLUE

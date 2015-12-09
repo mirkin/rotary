@@ -12,6 +12,7 @@ Rotary enocoder COM-10982 uses 2bit grey code
 '''
 import RPi.GPIO as GPIO
 import time
+import RGBLED
 states=[0,-1,1,0,1,0,0,-1,-1,0,0,1,0,1,-1,0]
 prev_state=0
 PINS=[5,13]
@@ -19,7 +20,7 @@ PIN_PUSH=6
 PIN_RED=7
 PIN_GREEN=8
 PIN_BLUE=25
-bounce=5
+bounce=2
 GPIO.setmode(GPIO.BCM)
 value=100
 
@@ -46,21 +47,11 @@ GPIO.setup(PIN_PUSH,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(PIN_PUSH,GPIO.BOTH,pushed,bouncetime=bounce)
 GPIO.setup(PIN_RED,GPIO.OUT,initial=0)
 
-GPIO.setup(PIN_GREEN,GPIO.OUT)
-dimmer_red=GPIO.PWM(PIN_RED,50) #frequency 
-dimmer_red.start(50) #duty cycle zero percent of each wave
-dimmer_red.ChangeDutyCycle(99)
-dimmer_green=GPIO.PWM(PIN_GREEN,50) #frequency 
-dimmer_green.start(50) #duty cycle zero percent of each wave
-dimmer_green.ChangeDutyCycle(1)
-r=100
+my_led=RGBLED.RGBLED(7,8,25,'COMMON_ANODE',0xFF1493)
 try:
     while True:
         time.sleep(0.01)
-        dimmer_red.ChangeDutyCycle(r)
-        r-=1
-        if r==0:
-            r=100
+        my_led.set_color(0xFF0000)
         #pass
 except KeyboardInterrupt:
     print('Cleaning Up')
