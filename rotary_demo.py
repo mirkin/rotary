@@ -15,7 +15,7 @@ def pushed(val):
     if val==1:
         cols=my_led.colors.values()
         col=random.choice(cols)
-        my_led.set_color(col)
+        my_led.color=col
 
 def value_changed(val):
     print('Value changed: '+str(val))

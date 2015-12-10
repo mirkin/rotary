@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
 
-class RGBLED:
+class RGBLED(object):
     'Operate an RGP LED via GPIO'
 
     COMMON_ANODE='COMMON_ANODE'
@@ -30,9 +30,8 @@ class RGBLED:
         self.PIN_GREEN=PIN_GREEN
         self.PIN_BLUE=PIN_BLUE
         self.type=type
-        self.color=color
         self.gpio_setup()
-        self.set_color(self.color)
+        self.color=color
 
     def gpio_setup(self):
         GPIO.setmode(GPIO.BCM)
@@ -48,16 +47,21 @@ class RGBLED:
         self.dimmer_green.start(50)
         self.dimmer_blue.start(50)
 
-    def set_color(self,c):
-        self.color=c
+    @property
+    def color(self):
+        return self.__color
+
+    @color.setter
+    def color(self,c):
+        self.__color=c
         # get colour values in range 0-255
-        red=(c & 0xFF0000)>>16
-        green=(c & 0xFF00)>>8
-        blue=c & 0xFF
+        self.__red=(c & 0xFF0000)>>16
+        self.__green=(c & 0xFF00)>>8
+        self.__blue=c & 0xFF
         # normalize to 0-100
-        red=(red/255.0)*100
-        blue=(blue/255.0)*100
-        green=(green/255.0)*100
+        red=(self.__red/255.0)*100
+        blue=(self.__blue/255.0)*100
+        green=(self.__green/255.0)*100
         if self.type=='COMMON_ANODE':
             #lower means brighter
             red=100-red
@@ -66,6 +70,17 @@ class RGBLED:
         self.dimmer_red.ChangeDutyCycle(red)
         self.dimmer_green.ChangeDutyCycle(green)
         self.dimmer_blue.ChangeDutyCycle(blue)
+
+
+    @property
+    def red(self):
+        return self.__red
+
+    @red.setter
+    def red(self, red):
+        self.__red=red
+        self.color((red<<16) | (self.__color & 0x00FFFF))
+        #self.__color=(red<<16) | (self.__color & 0x00FFFF)
 
     def get_red(self):
         return (self.color & 0xFF0000)>>16
