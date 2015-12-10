@@ -71,7 +71,6 @@ class RGBLED(object):
         self.dimmer_green.ChangeDutyCycle(green)
         self.dimmer_blue.ChangeDutyCycle(blue)
 
-
     @property
     def red(self):
         return self.__red
@@ -79,15 +78,23 @@ class RGBLED(object):
     @red.setter
     def red(self, red):
         self.__red=red
-        self.color((red<<16) | (self.__color & 0x00FFFF))
+        self.color=((red<<16) | (self.__color & 0x00FFFF))
         #self.__color=(red<<16) | (self.__color & 0x00FFFF)
 
-    def get_red(self):
-        return (self.color & 0xFF0000)>>16
+    @property
+    def green(self):
+        return self.__green
 
-    def get_green(self):
-        return (self.color & 0xFF00)>>8
+    @green.setter
+    def green(self, green):
+        self.__green=green
+        self.color=((green<<8) | (self.__color & 0xFF00FF))
 
-    def get_blue(self):
-        return (self.color & 0xFF)
+    @property
+    def blue(self):
+        return self.__blue
 
+    @blue.setter
+    def blue(self, blue):
+        self.__blue=blue
+        self.color=blue | (self.__color & 0xFFFF00)
